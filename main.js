@@ -1,8 +1,8 @@
 //Declaration of Variables
 
-var containerI = document.querySelector("#containerI");
-var curentTime = document.querySelector("#currentTime");
-var questionsEl = document.querySelector("#questionsDiv");
+var containerI = document.querySelector(".container");
+var currentTime = document.querySelector(".currentTime");
+var questionsEl = document.querySelector(".questionsDiv");
 var clickStartEl = document.querySelector(".clickToStart");
 
 
@@ -33,7 +33,7 @@ var questions = [
         answer: "quotes"
     },
     {
-        title: "What tool would we use during development and debugging for printing content to the debugger?",
+        title: "What tool would we use during development and debugging?",
         choices: ["Javascript", "terminal / bash", "for loops", "console log"],
         answer: "console log"
     },
@@ -69,20 +69,20 @@ clickStartEl.addEventListener("click", function () {
 
 function render(questionIndex) {
 
-    questionsDiv.innerHTML + "";
+    questionsEl.innerHTML + "";
     ulCreate.innerHTML + "";
 
     for (var i = 0; i < questions.length; i++) {
         var uQuestion = questions[questionIndex].title;
         var uChoices = questions[questionIndex].choices;
-        questionsDiv.textContent = uQuestion;
+        questionsEl.textContent = uQuestion;
 
     }
 
     uChoices.forEach(function (newItem) {
-        var listItem = doocument.createElement("li");
+        var listItem = document.createElement("li");
         listItem.textContent = newItem;
-        questionsDiv.appendChild(ulCreate);
+        questionsEl.appendChild(ulCreate);
         ulCreate.appendChild(listItem);
         listItem.addEventListener("click", (compare));
     })
@@ -110,31 +110,31 @@ function compare(event) {
     }
     questionIndex++;
     if (questionIndex >= questions.length) {
-        allFinished();
+        allDone();
         createDiv.textContent = "Your Trial is over!" + " " + "Your " + score + "/" + questions.length + " Correct!";
 
     }
     else {
-        render(questions);
+        render(questionIndex);
 
     }
-    questionsDiv.appendChild(createDiv);
+    questionsEl.appendChild(createDiv);
 }
 
 // All done Function
 function allDone() {
 
-    questionsDiv.innerHTML = "";
+    questionsEl.innerHTML = "";
     currentTime.innerHTML = "";
 
     var cH1 = document.createElement("h1");
     cH1.setAttribute("id", "cH1");
     cH1.textContent = "Finished!";
-    questionsDiv.appendChild(cH1);
+    questionsEl.appendChild(cH1);
 
     var newP = document.createElement("p");
     newP.setAttribute("id", "newP");
-    questionsDiv.appendChild(newP);
+    questionsEl.appendChild(newP);
 
     if (secondsLeft >= 0) {
         var timeRemaning = secondsLeft;
@@ -142,7 +142,7 @@ function allDone() {
         clearInterval(holdInterval);
         newP.textContent = "your score is: " + timeRemaning;
 
-        questionsDiv.appendChild(createP2);
+        questionsEl.appendChild(createP2);
 
 
     }
@@ -151,17 +151,17 @@ function allDone() {
     var enterHs = document.createElement("input");
     enterHs.setAttribute("type", "text");
     enterHs.setAttribute("id", "initials");
-    questionsDiv.appendChild(enterHs);
+    questionsEl.appendChild(enterHs);
 
     var createSubmit = document.createElement("button");
     createSubmit.setAttribute("type", "submit");
     createSubmit.setAttribute("id", "submit");
     createSubmit.textContent = "submit";
-    questionsDiv.appendChild(createSubmit);
+    questionsEl.appendChild(createSubmit);
 
 
     createSubmit.addEventListener("click", function () {
-        var initials = createInput.value;
+        var initials = enterHs.value;
 
         if (initials === null) {
             alert("Enter value you must");
@@ -173,7 +173,7 @@ function allDone() {
                 score: timeRemaning
             }
 
-        }
+      
 
 
         var allScores = localStorage.getItem("allScores");
@@ -192,6 +192,7 @@ function allDone() {
         localStorage.setItem("allScores", newScore);
 
         window.location.replace("hs.index.html");
+    }
     }
     );
 }
